@@ -14,18 +14,21 @@
  * Includes
  ******************************************************************************/
 
+#include "Sensirion.h"
+
+// Wiring Core Includes
+#if ARDUINO >= 100
+ #include "Arduino.h"
+#else
+ #include "WProgram.h"
+#endif
+ 
 extern "C" {
   // AVR LibC Includes
   #include <stddef.h>
   #include <stdint.h>
   #include <math.h>
-
-  // Wiring Core Includes
-  #include "WConstants.h"
 }
-
-#include "Sensirion.h"
-
 
 /******************************************************************************
  * Definitions
