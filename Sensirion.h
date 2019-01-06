@@ -39,7 +39,7 @@ const bool    BLOCK    =  true;
 const bool    NONBLOCK = false;
 
 // Status register bit definitions
-const uint8_t LOW_RES  =  0x01;  // 12-bit Temp / 8-bit RH (vs. 14 / 12)
+const uint8_t LOW_RES  =  0x00;  // 0x01: 12-bit Temp/ 8-bit RH (vs. 0x00: 14-bit/ 12-bit)
 const uint8_t NORELOAD =  0x02;  // No reload of calibrarion data
 const uint8_t HEAT_ON  =  0x04;  // Built-in heater on
 const uint8_t BATT_LOW =  0x40;  // VDD < 2.47V

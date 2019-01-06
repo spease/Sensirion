@@ -98,10 +98,14 @@ Sensirion::Sensirion(uint8_t dataPin, uint8_t clockPin) {
 uint8_t Sensirion::measure(float *temp, float *humi, float *dew) {
   uint16_t rawData;
   uint8_t error;
-  if (error = measTemp(&rawData))
+
+  error = measTemp(&rawData);
+  if (error)
     return error;
   *temp = calcTemp(rawData);
-  if (error = measHumi(&rawData))
+  
+  error = measHumi(&rawData);
+  if (error)
     return error;
   *humi = calcHumi(rawData, *temp);
   *dew = calcDewpoint(*humi, *temp);
@@ -119,7 +123,9 @@ uint8_t Sensirion::meas(uint8_t cmd, uint16_t *result, bool block) {
     cmd = MEAS_TEMP;
   else
     cmd = MEAS_HUMI;
-  if (error = putByte(cmd))
+
+  error = putByte(cmd);
+  if (error)
     return error;
 #ifdef CRC_ENA
   calcCRC(cmd, &_crc);              // Include command byte in CRC calculation
@@ -185,7 +191,8 @@ uint8_t Sensirion::writeSR(uint8_t value) {
   value &= SR_MASK;                 // Mask off unwritable bits
   _stat_reg = value;                // Save local copy
   startTransmission();
-  if (error = putByte(STAT_REG_W))
+  error = putByte(STAT_REG_W);
+  if (error)
     return error;
   return putByte(value);
 }
@@ -198,7 +205,8 @@ uint8_t Sensirion::readSR(uint8_t *result) {
   _crc = bitrev(_stat_reg & SR_MASK);  // Initialize CRC calculation
 #endif
   startTransmission();
-  if (error = putByte(STAT_REG_R)) {
+  error = putByte(STAT_REG_R);
+  if (error) {
     *result = 0xFF;
     return error;
   }
